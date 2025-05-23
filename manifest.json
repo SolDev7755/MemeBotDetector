@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Meme Bot Detector",
+  "version": "1.0",
+  "description": "Bot detector on meme coins",
+  "permissions": ["storage", "scripting", "activeTab"],
+  "host_permissions": ["https://axiom.trade/pulse", "https://trade.padre.gg/trenches"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://axiom.trade/pulse", "https://trade.padre.gg/trenches"],
+      "js": ["content.js"]
+    }
+  ]
+}
