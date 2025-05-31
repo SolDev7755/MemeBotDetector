@@ -4,7 +4,6 @@
 ## Dons (pour les chads)
 - **SOL Wallet:** `6gjWt9rHX1ZE7kwMHgW6rUnekrpz12FPQcyNCqqCPvJR`
 - **Refferal Axiom:** https://axiom.trade/@offs
-- **Refferal Padre:** https://trade.padre.gg/rk/kguswvzc5
 
 Merci aux chads qui me soutiendront 🙏
 
@@ -54,12 +53,6 @@ L’extension devrait maintenant apparaître dans votre barre Chrome et commence
 
 Si vous avez des suggestions ou autre chose que je devrais modifier dans cette extension ou créer dans le futur, sentez-vous libre de me l’écrire sur GitHub.
 
----
-
-## PS :
-
-Pardonnez-moi si le code n’est pas magnifique, je n’ai jamais vraiment fait de JS auparavant et celle-ci a été faite en peu de temps 😅 (je vais sûrement l’améliorer par la suite).
-
 <p align="center">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
 
 <img src="https://flagcdn.com/w40/us.png" width="20"/> English
@@ -68,7 +61,6 @@ Pardonnez-moi si le code n’est pas magnifique, je n’ai jamais vraiment fait 
 ## Donations (for the chads)
 - **SOL Wallet:** `6gjWt9rHX1ZE7kwMHgW6rUnekrpz12FPQcyNCqqCPvJR`
 - **Refferal Axiom:** https://axiom.trade/@offs
-- **Refferal Padre:** https://trade.padre.gg/rk/kguswvzc5
 
 Thanks to the chads who support me 🙏
 
@@ -117,9 +109,3 @@ The extension should now appear in your Chrome bar and start analyzing Axiom & P
 ## Feedback
 
 If you have any suggestions, ideas for improvements, or features you'd like to see in the future, feel free to open an issue here on GitHub.
-
----
-
-## PS:
-
-Forgive me if the code isn’t beautiful — I’ve never really done JS before and built this quickly 😅 (planning to improve it later).

@@ -1,41 +1,28 @@
 html, body {
   margin: 0;
-  padding: 0;
-  width: 100%;
   height: 90%;
-  background: transparent;
-  font-family: 'Segoe UI', sans-serif;
   display: flex;
-  justify-content: center;
   align-items: center;
-  color: #e6e6e6;
 }
 
 .popup {
-  position: relative;
   width: 320px;
   height: 360px;
   padding: 20px;
   box-sizing: border-box;
-  background: transparent;
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-.background-blur {
+.Background {
   position: absolute;
   inset: 0;
   background: linear-gradient(to top right, #7c26e1, #00d376);
   filter: blur(10px);
   opacity: 0.9;
-  z-index: 0;
 }
 
-.popup > *:not(.background-blur) {
+.popup > *:not(.Background) {
   position: relative;
   z-index: 1;
 }
@@ -56,10 +43,10 @@ html, body {
   font-weight: bold;
   margin-bottom: 10px;
   display: block;
+  color: #FFF;
 }
 
 input[type="color"] {
-  appearance: none;
   border: none;
   width: 60px;
   height: 60px;
@@ -81,30 +68,21 @@ input[type="color"]::-webkit-color-swatch {
 
 .donate-section {
   margin-top: 30px;
-  user-select: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   font-weight: 600;
   font-size: 14px;
-  color: #dcdcdc;
+  color: #FFF;
   padding: 8px 12px;
   border-radius: 12px;
   background-color: rgba(0, 0, 0, 0.4);
-  max-width: 280px;
   transition: background-color 0.2s ease;
 }
 
 .donate-section:hover {
   background-color: rgba(0, 0, 0, 0.7);
   text-decoration: underline;
-}
-
-.copy-icon {
-  width: 18px;
-  height: 18px;
-  fill: #dcdcdc;
-  flex-shrink: 0;
 }

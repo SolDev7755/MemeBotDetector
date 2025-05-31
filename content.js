@@ -1,116 +1,88 @@
-let settings = {
-  alertColor: '#e30f00',
-  scanInterval: 2000
+let Settings = {
+  AlertColor: '#e30f00',
+  ScanInterval: 2000
 };
 
-const url = window.location.href.toLowerCase();
+const Url = window.location.href.toLowerCase();
 
-chrome.storage.sync.get(['alertColor'], (data) => {
-  settings.alertColor = data.alertColor ?? '#e30f00';
-  startTokenScanner();
-});
-
-function startTokenScanner() {
-  setInterval(() => {
-    triggerRescan();
-  }, settings.scanInterval);
-
-  triggerRescan();
-}
-
-function triggerRescan() {
-  let containers = null;
-
-  switch (true) {
-    case url.startsWith('https://axiom.trade/pulse'):
-      containers = Array.from(document.querySelectorAll('div.flex.flex-1.w-full'));
-      break;
-
-    case url.startsWith('https://trade.padre.gg/trenches'):
-      containers = Array.from(document.querySelectorAll('div.ReactVirtualized__Grid__innerScrollContainer'));
-      break;
-
-    default: return;
+const SiteConfig = {
+  Axiom: {
+    Match: Url.startsWith('https://axiom.trade/pulse'),
+    ContainerSelector: 'div.flex.flex-1.w-full',
+    GetTokens: (Container) => Container?.children?.[0]?.children?.[0],
+    ParseCard: (Card) => {
+      const Base = Card?.children?.[0]?.children?.[0]?.children?.[3]?.children?.[1]?.children?.[0];
+      const Name = Base?.children?.[0]?.children?.[0];
+      const Info = Base?.children?.[2];
+      const Holders = Info?.children?.[0]?.children?.[1];
+      const Pros = Info?.children?.[1]?.children?.[1];
+      return { Name, Holders, Pros };
+    },
+    IsSus: (Holders, Pros) => Pros < Holders / 2
+  },
+  Padre: {
+    Match: Url.startsWith('https://trade.padre.gg/trenches'),
+    ContainerSelector: 'div.ReactVirtualized__Grid__innerScrollContainer',
+    GetTokens: (Container) => Container,
+    ParseCard: (Card) => {
+      const Base = Card?.children?.[0]?.children?.[1]?.children?.[1];
+      const Name = Base?.children?.[0]?.children?.[0]?.children?.[0]?.children?.[0]?.children?.[0];
+      const Info = Base?.children?.[1]?.children?.[1]?.children?.[0]?.children?.[0];
+      const Holders = Info?.children?.[1]?.children?.[1]?.children?.[1];
+      const Pros = Info?.children?.[0]?.children?.[2]?.children?.[1];
+      return { Name, Holders, Pros };
+    },
+    IsSus: (Holders, Pros) => Pros < Holders
   }
+};
 
-  containers.forEach(container => {
-    let tokenList = null;
+const ActiveSite = Object.values(SiteConfig).find(Site => Site.Match);
 
-    switch (true) {
-      case url.startsWith('https://axiom.trade/pulse'):
-        tokenList = container?.children?.[0]?.children?.[0];
-        break;
-
-      case url.startsWith('https://trade.padre.gg/trenches'):
-        tokenList = container;
-        break;
-
-      default: return;
-    }
-
-    if (tokenList) {
-      scanTokens(tokenList);
-    }
+if (ActiveSite) {
+  chrome.storage.sync.get(['alertColor'], (Data) => {
+    Settings.AlertColor = Data.alertColor ?? Settings.AlertColor;
+    StartScan();
   });
 }
 
-function scanTokens(wrapper) {
-  const tokenCards = wrapper.children;
+const ScanMap = new WeakMap();
 
-  Array.from(tokenCards).forEach(card => {
+function StartScan() {
+  setInterval(() => {
+    const Containers = Array.from(document.querySelectorAll(ActiveSite.ContainerSelector));
+    Containers.forEach(Container => {
+      const Tokens = ActiveSite.GetTokens(Container);
+      if (Tokens) {
+        ScanTokens(Tokens);
+      }
+    });
+  }, Settings.ScanInterval);
+}
+
+function ScanTokens(Wrapper) {
+  Array.from(Wrapper.children).forEach(Card => {
     try {
-      let nameEl = null;
-      let holdersEl = null;
-      let proEl = null;
-      let baseToken = null;
-      let numInfos = null;
+      const { Name, Holders, Pros } = ActiveSite.ParseCard(Card);
+      if (!Name || !Holders || !Pros) return;
 
-      switch (true) {
-        case url.startsWith('https://axiom.trade/pulse'):
-          baseToken = card?.children?.[0]?.children?.[0]?.children?.[3]?.children?.[1]?.children?.[0];
-          nameEl = baseToken?.children?.[0]?.children?.[0];
-          numInfos = baseToken?.children?.[2];
-          holdersEl = numInfos?.children?.[0]?.children?.[1];
-          proEl = numInfos?.children?.[1]?.children?.[1];
-          break;
+      const H = parseInt(Holders.textContent.replace(/\D/g, '')) || 0;
+      const P = parseInt(Pros.textContent.replace(/\D/g, '')) || 0;
 
-        case url.startsWith('https://trade.padre.gg/trenches'):
-          baseToken = card?.children?.[0]?.children?.[1]?.children?.[1];
-          nameEl = baseToken?.children?.[0]?.children?.[0]?.children?.[0]?.children?.[0]?.children?.[0];
-          numInfos = baseToken?.children?.[1]?.children?.[1]?.children?.[0]?.children?.[0];
-          holdersEl = numInfos?.children?.[1]?.children?.[1]?.children?.[1];
-          proEl = numInfos?.children?.[0]?.children?.[2]?.children?.[1];
-          break;
+      const Last = ScanMap.get(Card);
+      if (Last && Last.H === H && Last.P === P) return;
 
-        default: return;
-      }
+      ScanMap.set(Card, { H, P });
 
-      if (!nameEl || !holdersEl || !proEl) return;
+      const IsSus = ActiveSite.IsSus(H, P);
 
-      const holders = parseInt(holdersEl.textContent.replace(/\D/g, '')) || 0;
-      const proTraders = parseInt(proEl.textContent.replace(/\D/g, '')) || 0;
-
-      const threshold = holders / 2;
-
-      const Axiom = proTraders < threshold && url.startsWith('https://axiom.trade/pulse');
-      const Padre = proTraders < holders && url.startsWith('https://trade.padre.gg/trenches');
-
-      if (Axiom || Padre) {
-        nameEl.style.color = settings.alertColor;
-        nameEl.style.fontWeight = 'bold';
-      } else {
-        nameEl.style.color = '';
-        nameEl.style.fontWeight = '';
-      }
-    } catch{}
+      Name.style.color = IsSus ? Settings.AlertColor : '';
+      Name.style.fontWeight = IsSus ? 'bold' : '';
+    } catch {}
   });
 }
 
-chrome.storage.onChanged.addListener((changes, areaName) => {
-  if (areaName === 'sync') {
-    if (changes.alertColor) {
-      settings.alertColor = changes.alertColor.newValue;
-      triggerRescan();
-    }
+chrome.storage.onChanged.addListener((Changes, Area) => {
+  if (Area === 'sync' && Changes.alertColor) {
+    Settings.AlertColor = Changes.alertColor.newValue;
   }
 });

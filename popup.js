@@ -1,32 +1,32 @@
-let debounceTimer;
+let DebounceTimer;
 
 document.addEventListener('DOMContentLoaded', () => {
-  const popup = document.getElementById('popup');
-  const logoImage = document.getElementById('logoImage');
-  const colorPicker = document.getElementById('colorPicker');
-  const copyBtn = document.getElementById('copyWallet');
-  const walletText = "6gjWt9rHX1ZE7kwMHgW6rUnekrpz12FPQcyNCqqCPvJR";
+  const Popup = document.getElementById('popup');
+  const LogoImage = document.getElementById('logoImage');
+  const ColorPicker = document.getElementById('colorPicker');
+  const CopyBtn = document.getElementById('copyWallet');
+  const WalletText = "6gjWt9rHX1ZE7kwMHgW6rUnekrpz12FPQcyNCqqCPvJR";
 
   chrome.storage.sync.get(['alertColor'], data => {
-    colorPicker.value = data.alertColor ?? '#e60000';
+    ColorPicker.value = data.alertColor ?? '#e30f00';
   });
 
-  colorPicker.addEventListener('input', () => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-      chrome.storage.sync.set({ alertColor: colorPicker.value });
+  ColorPicker.addEventListener('input', () => {
+    clearTimeout(DebounceTimer);
+    DebounceTimer = setTimeout(() => {
+      chrome.storage.sync.set({ alertColor: ColorPicker.value });
     }, 50);
   });
 
-  copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(walletText);
+  CopyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(WalletText);
   });
 
-  logoImage.addEventListener('load', () => {
-    popup.style.display = 'flex';
+  LogoImage.addEventListener('load', () => {
+    Popup.style.display = 'flex';
   });
 
-  if (logoImage.complete) {
-    popup.style.display = 'flex';
+  if (LogoImage.complete) {
+    Popup.style.display = 'flex';
   }
 });

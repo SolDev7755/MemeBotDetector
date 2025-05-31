@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Token bot detection</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  
-  <div class="popup" id="popup" style="display: none;">
-    <div class="background-blur"></div>
-    <img src="logo.png" alt="Logo" class="logo" id="logoImage">
+  <div class="popup" id="popup">
+    <div class="Background"></div>
+    <img src="logo.png" class="logo" id="logoImage">
 
     <div class="color-picker-section">
       <label for="colorPicker">Spotted bot token color</label>
@@ -25,7 +21,7 @@
 
         <span>Copy wallet (donations)</span>
 
-        <svg class="copy-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18px" height="18px" fill="#FFF" >
           <path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zM19 5H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/>
         </svg>
       </div>
@@ -33,4 +29,3 @@
 
   <script src="popup.js"></script>
 </body>
-</html>
