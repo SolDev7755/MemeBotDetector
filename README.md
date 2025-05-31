@@ -4,6 +4,7 @@
 ## Dons (pour les chads)
 - **SOL Wallet:** `6gjWt9rHX1ZE7kwMHgW6rUnekrpz12FPQcyNCqqCPvJR`
 - **Refferal Axiom:** https://axiom.trade/@offs
+- **Refferal Padre:** https://trade.padre.gg/rk/kguswvzc5
 
 Merci aux chads qui me soutiendront 🙏
 
@@ -61,6 +62,7 @@ Si vous avez des suggestions ou autre chose que je devrais modifier dans cette e
 ## Donations (for the chads)
 - **SOL Wallet:** `6gjWt9rHX1ZE7kwMHgW6rUnekrpz12FPQcyNCqqCPvJR`
 - **Refferal Axiom:** https://axiom.trade/@offs
+- **Refferal Padre:** https://trade.padre.gg/rk/kguswvzc5
 
 Thanks to the chads who support me 🙏
 
