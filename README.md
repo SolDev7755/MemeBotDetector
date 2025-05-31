@@ -44,13 +44,13 @@ L’extension devrait maintenant apparaître dans votre barre Chrome et commence
 
 ---
 
-## Attention !
+## ⚠️ Attention!
 
 - N'oubliez pas que même un coin botté peut pump (mais attention aux rugs !).
 
 ---
 
-## Feedback
+## Retour
 
 Si vous avez des suggestions ou autre chose que je devrais modifier dans cette extension ou créer dans le futur, sentez-vous libre de me l’écrire sur GitHub.
 
